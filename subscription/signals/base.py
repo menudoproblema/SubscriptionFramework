@@ -90,13 +90,10 @@ class AbstractSignal(metaclass=abc.ABCMeta):
 
         try:
             for handler in self._handlers:
-                try:
-                    value = handler(*args, **kwargs)
-                    acc_value = acc.accumulate_value(acc_value, value)
-                    if not acc.should_continue(acc_value):
-                        break
-                except Exception:
-                    pass
+                value = handler(*args, **kwargs)
+                acc_value = acc.accumulate_value(acc_value, value)
+                if not acc.should_continue(acc_value):
+                    break
         finally:
             self.lock.release()
 
