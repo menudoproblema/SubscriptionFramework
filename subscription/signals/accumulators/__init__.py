@@ -7,19 +7,15 @@ class NoneAccumulator(AbstractAccumulator):
     None. If there are no handlers at all, emission result is None.
     """
     def get_initial_value(self):
-        """Get initial value for this accumulator."""
         return None
 
     def accumulate_value(self, accumulated_value, value_to_add):
-        """Accumulate value_to_add into accumulated_value and return the result."""
         return None
 
     def should_continue(self, accumulated_value):
-        """Examine accumulated_value and decide if signal emission should continue."""
         return True
 
     def post_process_value(self, accumulated_value):
-        """Post-process accumulated_value and return new value."""
         return None
 
 
@@ -30,11 +26,9 @@ class SumAccumulator(AbstractAccumulator):
     result is 0.
     """
     def get_initial_value(self):
-        """Get initial value for this accumulator."""
         return 0
 
     def accumulate_value(self, accumulated_value, value_to_add):
-        """Accumulate value_to_add into accumulated_value and return the result."""
         try:
             new_value = int(value_to_add)
         except:
@@ -43,9 +37,87 @@ class SumAccumulator(AbstractAccumulator):
         return accumulated_value + new_value
 
     def should_continue(self, accumulated_value):
-        """Examine accumulated_value and decide if signal emission should continue."""
         return True
 
     def post_process_value(self, accumulated_value):
-        """Post-process accumulated_value and return new value."""
         return accumulated_value
+
+
+class AnyAcceptsAccumulator(AbstractAccumulator):
+    """
+    An accumulator that stops emission if any handler returns a non-zero
+    value and sets emission result to it in this case. If all handlers
+    return zero values, signal emission is not stopped and result is
+    returned by last handler. If there are no handlers at all, emission
+    result is False.
+    """
+    def get_initial_value(self):
+        return False
+
+    def accumulate_value(self, accumulated_value, value_to_add):
+        return accumulated_value + value_to_add
+
+    def should_continue(self, accumulated_value):
+        return accumulated_value == 0
+
+    def post_process_value(self, accumulated_value):
+        return accumulated_value
+
+
+class AllAcceptAccumulator(AbstractAccumulator):
+    """
+    An accumulator that stops emission if any handler returns a zero
+    value and sets emission result to it in this case. If all handlers
+    return non-zero values, signal emission is not stopped and result is
+    returned by last handler. If there are no handlers at all, emission
+    result is True.
+    """
+    def get_initial_value(self):
+        return True
+
+    def accumulate_value(self, accumulated_value, value_to_add):
+        return
+
+    def should_continue(self, accumulated_value):
+        return
+
+    def post_process_value(self, accumulated_value):
+        return
+
+
+class LastValueAccumulator(AbstractAccumulator):
+    """
+    An accumulator that always returns the value returned by last
+    handler. If there are no handlers at all, emission result is None.
+    """
+    def get_initial_value(self):
+        return None
+
+    def accumulate_value(self, accumulated_value, value_to_add):
+        return value_to_add
+
+    def should_continue(self, accumulated_value):
+        return True
+
+    def post_process_value(self, accumulated_value):
+        return accumulated_value
+
+
+
+class ValueListAccumulator(AbstractAccumulator):
+    """
+    An accumulator that returns a list of all handler results. If there
+    are no handlers at all, emission result is an empty list.
+    """
+    def get_initial_value(self):
+        return []
+
+    def accumulate_value(self, accumulated_value, value_to_add):
+        accumulated_value.append(value_to_add)
+        return accumulated_value
+
+    def should_continue(self, accumulated_value):
+        return True
+
+    def post_process_value(self, accumulated_value):
+        return tuple(accumulated_value)
