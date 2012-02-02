@@ -9,12 +9,18 @@ class AbstractAccumulator(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def accumulate_value(self, accumulated_value, value_to_add):
-        """Accumulate value_to_add into accumulated_value and return the result."""
+        """
+        Accumulate value_to_add into accumulated_value and return the
+        result.
+        """
         pass
 
     @abc.abstractmethod
     def should_continue(self, accumulated_value):
-        """Examine accumulated_value and decide if signal emission should continue."""
+        """
+        Examine accumulated_value and decide if signal emission should
+        continue.
+        """
         pass
 
     @abc.abstractmethod

@@ -43,7 +43,7 @@ class SumAccumulator(AbstractAccumulator):
         return accumulated_value
 
 
-class AnyAcceptsAccumulator(AbstractAccumulator):
+class AnyAcceptAccumulator(AbstractAccumulator):
     """
     An accumulator that stops emission if any handler returns a non-zero
     value and sets emission result to it in this case. If all handlers
@@ -76,7 +76,7 @@ class AllAcceptAccumulator(AbstractAccumulator):
         return True
 
     def accumulate_value(self, accumulated_value, value_to_add):
-        return value_to_add or accumulated_value
+        return value_to_add if not value_to_add else accumulated_value
 
     def should_continue(self, accumulated_value):
         return True if accumulated_value else False
@@ -103,7 +103,6 @@ class LastValueAccumulator(AbstractAccumulator):
         return accumulated_value
 
 
-
 class ValueListAccumulator(AbstractAccumulator):
     """
     An accumulator that returns a list of all handler results. If there
@@ -121,3 +120,6 @@ class ValueListAccumulator(AbstractAccumulator):
 
     def post_process_value(self, accumulated_value):
         return tuple(accumulated_value)
+
+
+DefaultAccumulator = NoneAccumulator

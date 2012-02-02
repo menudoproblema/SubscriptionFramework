@@ -3,6 +3,9 @@ import threading
 
 
 class AbstractSignal(metaclass=abc.ABCMeta):
+    """
+    Signal don't guarantee the order of execution of handlers.
+    """
     @abc.abstractproperty
     def get_accumulator(self):
         pass
