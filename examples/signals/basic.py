@@ -19,7 +19,7 @@ def run_if_scary(frobnicator_type, num_tentacles):
     if frobnicator_type == 'Slimy':
         print('I panic')
         import sys
-        sys.exit ()
+        sys.exit()
 
 
 new_frobnicator = Signal()
