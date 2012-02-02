@@ -76,13 +76,13 @@ class AllAcceptAccumulator(AbstractAccumulator):
         return True
 
     def accumulate_value(self, accumulated_value, value_to_add):
-        return
+        return value_to_add or accumulated_value
 
     def should_continue(self, accumulated_value):
-        return
+        return True if accumulated_value else False
 
     def post_process_value(self, accumulated_value):
-        return
+        return accumulated_value
 
 
 class LastValueAccumulator(AbstractAccumulator):
