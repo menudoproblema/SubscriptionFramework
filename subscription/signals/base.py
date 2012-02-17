@@ -4,14 +4,18 @@ import threading
 
 class AbstractSignal(metaclass=abc.ABCMeta):
     """
+    Signal can have an accumulator for values, returned by its handlers.
+    By default, Signal use ``DefaultAccumulator``.
+
     Signal don't guarantee the order of execution of handlers.
     """
+    lock = threading.Lock()
+
     @abc.abstractproperty
     def get_accumulator(self):
         pass
 
     def __init__(self):
-        self.lock = threading.Lock()
         self._handlers = set()
 
     def connect(self, handler, safe=True):
